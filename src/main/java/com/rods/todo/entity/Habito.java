@@ -17,20 +17,22 @@ public class Habito {
 
     
 
-    public Habito(UUID id, String titulo, String descricao, LocalDate dataUltimoStreak, int contagemStreak) {
+    public Habito(UUID id, String titulo, String descricao, LocalDate dataUltimoStreak, int contagemStreak, LocalDate criadoEm) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataUltimoStreak = dataUltimoStreak;
         this.contagemStreak = contagemStreak;
+        this.criadoEm = criadoEm;
     }
 
 
-    public Habito(String titulo, String descricao, LocalDate dataUltimoStreak, int contagemStreak) {
+    public Habito(String titulo, String descricao, LocalDate dataUltimoStreak, int contagemStreak, LocalDate criadoEm) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataUltimoStreak = dataUltimoStreak;
         this.contagemStreak = contagemStreak;
+        this.criadoEm = criadoEm;
     }
 
 
@@ -46,6 +48,10 @@ public class Habito {
     private LocalDate dataUltimoStreak;
 
     private int contagemStreak;
+
+    private LocalDate criadoEm;
+
+    
 
     public UUID getId() {
         return id;
@@ -85,6 +91,14 @@ public class Habito {
 
     public void setContagemStreak(int contagemStreak) {
         this.contagemStreak = contagemStreak;
+    }
+
+    public LocalDate getCriadoEm() {
+        return criadoEm;
+    }
+
+    public void setCriadoEm(LocalDate criadoEm) {
+        this.criadoEm = criadoEm;
     }
 
     
