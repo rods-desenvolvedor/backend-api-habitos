@@ -3,6 +3,7 @@ package com.rods.todo.entity;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,7 +39,6 @@ public class Habito {
     }
 
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -47,17 +47,18 @@ public class Habito {
 
     private String descricao;
 
+    @Column(name = "data_ultimo_streak")
     private LocalDate dataUltimoStreak;
 
+    @Column(name = "contagem_streak")
     private int contagemStreak;
 
+    @Column(name = "criado_em")
     private LocalDate criadoEm;
-
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
-
     
 
     public UUID getId() {
