@@ -30,12 +30,13 @@ public class Habito {
     }
 
 
-    public Habito(String titulo, String descricao, LocalDate dataUltimoStreak, int contagemStreak, LocalDate criadoEm) {
+    public Habito(String titulo, String descricao, LocalDate dataUltimoStreak, int contagemStreak, LocalDate criadoEm, Usuario usuario) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataUltimoStreak = dataUltimoStreak;
         this.contagemStreak = contagemStreak;
         this.criadoEm = criadoEm;
+        this.usuario = usuario;
     }
 
 
