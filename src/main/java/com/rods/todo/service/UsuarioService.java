@@ -30,6 +30,8 @@ public class UsuarioService {
         usuarioRequestDto.senha(),
         LocalDate.now(), habitos);
 
+        usuarioRepository.save(usuario);
+
         return new UsuarioResponseDto(usuario);
     }
 
