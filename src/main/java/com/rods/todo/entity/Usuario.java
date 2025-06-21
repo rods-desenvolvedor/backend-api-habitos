@@ -2,8 +2,12 @@ package com.rods.todo.entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,7 +20,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_usuarios")
-public class Usuario {
+public class Usuario implements UserDetails{
 
 
     public Usuario() {}
@@ -60,6 +64,46 @@ public class Usuario {
 
     
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+
+
     public UUID getId() {
         return id;
     }
@@ -68,7 +112,12 @@ public class Usuario {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
+        return this.email;
+    }
+
+    public String getDisplayName() {
         return username;
     }
 
@@ -107,6 +156,10 @@ public class Usuario {
     public void setHabitos(List<Habito> habitos) {
         this.habitos = habitos;
     }
+
+
+
+    
 
     
     
