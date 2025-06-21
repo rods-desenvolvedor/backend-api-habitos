@@ -61,19 +61,17 @@ public class Usuario implements UserDetails{
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Habito> habitos = new ArrayList<>();
-
     
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of();
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return senha;
     }
-
 
 
     @Override
@@ -81,27 +79,25 @@ public class Usuario implements UserDetails{
         return true;
     }
 
-
-
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
-
 
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-
-
     @Override
     public boolean isEnabled() {
         return true;
     }
 
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
 
 
     public UUID getId() {
@@ -110,11 +106,6 @@ public class Usuario implements UserDetails{
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
     }
 
     public String getDisplayName() {
@@ -156,11 +147,5 @@ public class Usuario implements UserDetails{
     public void setHabitos(List<Habito> habitos) {
         this.habitos = habitos;
     }
-
-
-
-    
-
-    
     
 }
