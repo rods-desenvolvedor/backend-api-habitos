@@ -9,26 +9,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rods.todo.dtos.auth.AuthRequestDto;
+import com.rods.todo.dtos.auth.RegisterDto;
+import com.rods.todo.service.AuthService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
+    private AuthService authService;
 
-    private AuthenticationManager authenticationManager;
-
-    public AuthController(AuthenticationManager authenticationManager)
+    public AuthController(AuthService authService)
     {
-        this.authenticationManager = authenticationManager;
+        this.authService = authService;
     }
 
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthRequestDto authRequestDto)
     {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(authRequestDto.email(), authRequestDto.senha());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
+        authService.login(authRequestDto);
+        return ResponseEntity.ok().build();
+    }
 
+    @PostMapping("/cadastrar")
+    public ResponseEntity cadastrarUsuario(@RequestBody RegisterDto registerDto)
+    {
+        authService.cadastrarUsuario(registerDto);
         return ResponseEntity.ok().build();
     }
     
