@@ -17,6 +17,9 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers("/auth/**").permitAll()
+                    .anyRequest().authenticated())
                 .build();
     }
     
