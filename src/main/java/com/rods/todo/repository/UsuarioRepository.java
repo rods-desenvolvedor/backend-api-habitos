@@ -10,6 +10,6 @@ import com.rods.todo.entity.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID>{
 
-    public UserDetails getByEmail(String email);
+    public UserDetails findByEmail(String email);
     
 }
