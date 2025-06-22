@@ -6,10 +6,12 @@ import java.util.List;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rods.todo.dtos.auth.AuthRequestDto;
+import com.rods.todo.dtos.auth.LoginResponseDto;
 import com.rods.todo.dtos.auth.RegisterDto;
 import com.rods.todo.entity.Habito;
 import com.rods.todo.entity.Usuario;
@@ -20,17 +22,25 @@ public class AuthService {
 
     private AuthenticationManager authenticationManager;
     private UsuarioRepository usuarioRepository;
+    private JwtService jwtService;
 
-    public AuthService(AuthenticationManager authenticationManager, UsuarioRepository usuarioRepository)
+    public AuthService(AuthenticationManager authenticationManager, UsuarioRepository usuarioRepository, JwtService jwtService)
     {
         this.authenticationManager = authenticationManager;
         this.usuarioRepository = usuarioRepository;
+        this.jwtService = jwtService;
     }
 
-    public void login(AuthRequestDto authRequestDto)
+    public LoginResponseDto login(AuthRequestDto authRequestDto)
     {
         var usernamePassword = new UsernamePasswordAuthenticationToken(authRequestDto.email(), authRequestDto.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
+
+        UserDetails usuario = usuarioRepository.findByEmail(authRequestDto.email());
+
+        String token = jwtService.generateToken(usuario);
+
+        return new LoginResponseDto(token, jwtService.getExpirationTime());
     }
 
     public void cadastrarUsuario(RegisterDto registerDto)
