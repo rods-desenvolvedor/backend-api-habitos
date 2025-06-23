@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.rods.todo.exception.EntidadeNaoEncontradaException;
 import com.rods.todo.repository.UsuarioRepository;
 
 @Service
@@ -19,7 +20,8 @@ public class AuthorizationService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findByEmail(username);
+        return usuarioRepository.findByEmail(username)
+            .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuario", username));
     }
     
 }

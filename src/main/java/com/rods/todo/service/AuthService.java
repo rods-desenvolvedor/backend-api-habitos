@@ -15,6 +15,8 @@ import com.rods.todo.dtos.auth.LoginResponseDto;
 import com.rods.todo.dtos.auth.RegisterDto;
 import com.rods.todo.entity.Habito;
 import com.rods.todo.entity.Usuario;
+import com.rods.todo.exception.EntidadeNaoEncontradaException;
+import com.rods.todo.exception.UsuarioJaExisteException;
 import com.rods.todo.repository.UsuarioRepository;
 
 @Service
@@ -36,7 +38,8 @@ public class AuthService {
         var usernamePassword = new UsernamePasswordAuthenticationToken(authRequestDto.email(), authRequestDto.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        UserDetails usuario = usuarioRepository.findByEmail(authRequestDto.email());
+        UserDetails usuario = usuarioRepository.findByEmail(authRequestDto.email())
+            .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuario", authRequestDto.email()));
 
         String token = jwtService.generateToken(usuario);
 
@@ -45,6 +48,12 @@ public class AuthService {
 
     public void cadastrarUsuario(RegisterDto registerDto)
     {
+
+        if(usuarioRepository.findByEmail(registerDto.email()).isPresent())
+        {
+            throw new UsuarioJaExisteException(registerDto.email());
+        }
+
         List<Habito> habitos = new ArrayList<>();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.senha());
