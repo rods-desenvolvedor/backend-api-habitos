@@ -3,8 +3,6 @@ package com.rods.todo.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -44,6 +42,24 @@ public class HabitoService {
         List<Habito> habitos = habitoRepository.findByUsuarioId(idUsuarioLogado);
 
         return habitos.stream().map(HabitoResponseDto::new).toList();
+    }
+
+    public HabitoResponseDto atualizarHabito(UUID idHabito, HabitoRequestDto habitoRequestDto)
+    {
+        Habito habito = habitoRepository.findById(idHabito)
+        .orElseThrow(() -> new RuntimeException("Habito não encontrado"));
+
+        habito.setTitulo(habitoRequestDto.titulo());
+        habito.setDescricao(habitoRequestDto.descricao());
+
+        habitoRepository.save(habito);
+
+        return new HabitoResponseDto(habito);
+    }
+
+    public void apagarHabitoPeloId(UUID idHabito)
+    {
+        habitoRepository.deleteById(idHabito);
     }
     
     
