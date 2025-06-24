@@ -1,7 +1,10 @@
 package com.rods.todo.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -34,6 +37,13 @@ public class HabitoService {
         habitoRepository.save(habito);
 
         return new HabitoResponseDto(habito);
+    }
+
+    public List<HabitoResponseDto> listarHabitos(UUID idUsuarioLogado)
+    {
+        List<Habito> habitos = habitoRepository.findByUsuarioId(idUsuarioLogado);
+
+        return habitos.stream().map(HabitoResponseDto::new).toList();
     }
     
     

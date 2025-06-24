@@ -1,8 +1,12 @@
 package com.rods.todo.controller;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +34,13 @@ public class HabitoController {
         HabitoResponseDto habito = habitoService.cadastrarHabito(habitoRequestDto, id);
 
         return ResponseEntity.ok().body(habito);
+    }
+
+    @GetMapping("/listar/{id}")
+    public ResponseEntity<List<HabitoResponseDto>> listarHabitos(@PathVariable UUID id)
+    {
+        List<HabitoResponseDto> habitos = habitoService.listarHabitos(id);
+        return ResponseEntity.ok().body(habitos);
     }
     
 }
