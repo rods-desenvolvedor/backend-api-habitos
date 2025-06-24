@@ -1,5 +1,18 @@
 package com.rods.todo.dtos.auth;
 
-public record AuthRequestDto(String email, String senha) {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record AuthRequestDto(
+    
+    @Email
+    @NotBlank
+    String email,
+
+    @NotBlank
+    @Size(min = 6, message = "Senha deve ter no minimo 6 caracteres")
+    String senha) {
     
 }
