@@ -28,13 +28,5 @@ public class UsuarioController {
     {
         return ResponseEntity.ok().body("ok: teste bem sucedido.");
     }
-
-    @PostMapping("/cadastrar")
-    public ResponseEntity<UsuarioResponseDto> cadastrarUsuario(@RequestBody UsuarioRequestDto usuarioRequestDto)
-    {
-        UsuarioResponseDto usuarioResponseDto = usuarioService.cadastrarUsuario(usuarioRequestDto);
-
-        return ResponseEntity.ok().body(usuarioResponseDto);
-    }
     
 }

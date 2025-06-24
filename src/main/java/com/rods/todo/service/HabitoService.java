@@ -10,6 +10,7 @@ import com.rods.todo.dtos.habito.HabitoRequestDto;
 import com.rods.todo.dtos.habito.HabitoResponseDto;
 import com.rods.todo.entity.Habito;
 import com.rods.todo.entity.Usuario;
+import com.rods.todo.exception.EntidadeNaoEncontradaException;
 import com.rods.todo.repository.HabitoRepository;
 import com.rods.todo.repository.UsuarioRepository;
 
@@ -24,6 +25,24 @@ public class HabitoService {
         this.habitoRepository = habitoRepository;
         this.usuarioRepository = usuarioRepository;
     }
+
+   public HabitoResponseDto aumentarStreakDeUmHabito(UUID idHabito) {
+    Habito habito = habitoRepository.findById(idHabito)
+        .orElseThrow(() -> new EntidadeNaoEncontradaException("Hábito", idHabito));
+
+    LocalDate hoje = LocalDate.now();
+    LocalDate ultimoStreak = habito.getDataUltimoStreak();
+
+    
+    if (ultimoStreak == null || ultimoStreak.isBefore(hoje)) {
+        habito.setContagemStreak(habito.getContagemStreak() + 1);
+        habito.setDataUltimoStreak(hoje);
+        habitoRepository.save(habito);
+    }
+
+    return new HabitoResponseDto(habito);
+}
+
 
     public HabitoResponseDto cadastrarHabito(HabitoRequestDto habitoRequestDto, UUID idUsuario)
     {
